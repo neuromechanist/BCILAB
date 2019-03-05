@@ -16,6 +16,12 @@ function run_readbiosemi(varargin)
 %
 %   ChannelRange : Numeric vector of channel indices that should be recorded (referring to the 
 %                  default BioSemi channel order); default: 3:131
+%  WRT BRaIN lab Biosemi system, the overall specs are
+%  MK2: 1
+%  speed mode: 4
+%  sampling rate: 2048
+%  channels: 282 (1xSync, 1xTrigger, 256xEEG, 8xExG, 16xExtra)
+%
 %
 %   SamplingRate : Sampling rate for the amplifier, in Hz (default: 256)
 %

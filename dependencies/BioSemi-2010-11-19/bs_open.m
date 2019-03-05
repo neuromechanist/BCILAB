@@ -25,22 +25,22 @@ if ~exist('basepath','var') || isempty(basepath)
     basepath = [fileparts(mfilename('fullpath')) filesep]; end
 if ispc
     if strfind(computer,'64')
-        dllpath = [basepath 'Win64' filesep 'Labview_DLL.dll'];
+        dllpath = [basepath filesep 'Win64' filesep 'Labview_DLL.dll'];
     else
-        dllpath = [basepath 'Win32' filesep 'Labview_DLL.dll'];
+        dllpath = [basepath filesep 'Win32' filesep 'Labview_DLL.dll'];
     end
 elseif ismac
-    dllpath = [basepath 'Mac' filesep 'liblabview_dll.0.0.1.dylib'];
+    dllpath = [basepath filesep 'Mac' filesep 'liblabview_dll.0.0.1.dylib'];
 elseif isunix
     if strfind(computer,'64')
-        dllpath = [basepath 'Linux64' filesep 'liblabview_dll.so'];
+        dllpath = [basepath filesep 'Linux64' filesep 'liblabview_dll.so'];
     else
-        dllpath = [basepath 'Linux32' filesep 'liblabview_dll.so'];
+        dllpath = [basepath filesep 'Linux32' filesep 'liblabview_dll.so'];
     end
 else
     error('Operating System not supported by the BioSemi driver.');
 end
-        
+%        keyboard 
 % open the stream
 [h.hDLL,h.hConn,h.hOPEN_DRIVER_ASYNC,h.hUSB_WRITE,h.hREAD_MULTIPLE_SWEEPS,h.hREAD_POINTER,h.hCLOSE_DRIVER_ASYNC,h.pBuffer,h.nbchan,h.srate,h.nbsync,h.nbtrig,h.nbeeg,h.nbexg,h.last_ptr] = bsb_open(dllpath);
 % make sure that it gets auto-deleted when the handle is erased

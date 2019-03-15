@@ -52,7 +52,7 @@ EEG = rmfield(stream,{'buffer','smax','buffer_len','timestamps','timestamps_len'
 io_save(out_filename,'-mat','-makedirs','-attributes','''+w'',''a''','EEG');
 
 % create the .fdt file...
-fid = fopen(fullfile(eeg.filepath, eeg.datfile),'wb','ieee-le');
+fid = fopen(fullfile(EEG.filepath, EEG.datfile),'wb','ieee-le');
 if fid == -1
     error('Cannot write output file, check permission and space.'); end;
 
@@ -67,14 +67,14 @@ fprintf(marker_fid, '%s\t%s\n', 'type', 'latency');
 
 % create timer (which periodically writes to the stream)
 t = timer('ExecutionMode','fixedRate', 'Name',[in_stream '_write_timer'], 'Period',1/update_freq, ...
-    'StartDelay',start_delay, 'TimerFcn',@(obj,varargin) append_data(in_stream,fid,marker_fid,stream.streamid,obj,eeg));
+    'StartDelay',start_delay, 'TimerFcn',@(obj,varargin) append_data(in_stream,fid,marker_fid,stream.streamid,obj,EEG));
 
 % start timer
 start(t);
 
 
 % timer callback: visualization
-function append_data(stream,fid,marker_fid,streamid,timerhandle,eeg)
+function append_data(stream,fid,marker_fid,streamid,timerhandle,EEG)
 try
     % check if the stream and the predictor are still there
     s = evalin('base',stream);
@@ -112,7 +112,7 @@ try
 catch e
      if ~strcmp(e.identifier,'MATLAB:UndefinedFunction')
         env_handleerror(e); end
-    finalize_dataset(fid,marker_fid,eeg);
+    finalize_dataset(fid,marker_fid,EEG);
     % interrupted: make sure that the file gets closed
     stop(timerhandle);
     delete(timerhandle);
